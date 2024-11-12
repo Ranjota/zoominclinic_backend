@@ -1,10 +1,10 @@
-require('dotenv').config();
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
 const statsRouter = require('./routes/stats');
+const connectDB = require('./config/db');
 
 const app = express();
+connectDB();
 
 // CORS Middleware
 app.use(cors({
@@ -15,13 +15,6 @@ app.use(cors({
 
 // Middleware
 app.use(express.json()); // Parses incoming JSON requests
-
-// Database connection
-mongoose.connect(process.env.MONGO_URI, {
-  dbName: 'zoominclinic_db'
-})
-.then(() => console.log('Connected to MongoDB'))
-.catch(err => console.error('Error connecting to MongoDB:', err));
 
 // Routes
 app.get('/', (req, res) => {

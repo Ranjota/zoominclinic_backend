@@ -1,8 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const {getStats} = require('../controllers/statsController');
+const { getStats } = require('../controllers/statsController');
+const sseHandler  = require('../controllers/sseHandler');
 
-// console.log(getStats);
 router.get('/stats', getStats);
+
+router.get('stats/live', sseHandler);
 
 module.exports = router;
