@@ -24,7 +24,7 @@ const statsSchema = new mongoose.Schema({
 
 statsSchema.statics.getLiveStats = async function() {
     try {
-        return await this.findOne().sort({ timestamp: -1});
+        return await this.findOne().sort({ updatedAt: -1});
     } catch(error) {
         console.error('Error fetching stats:', error);
         return null;
