@@ -1,4 +1,4 @@
-const Stats = require('../models/Stats');
+const Stats = require('../models/statsModel');
 
 const sseHandler = (req, res) => {
     res.setHeader('Content-type', 'text/event-stream');
