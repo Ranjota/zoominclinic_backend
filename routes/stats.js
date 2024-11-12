@@ -5,6 +5,6 @@ const sseHandler  = require('../controllers/sseHandler');
 
 router.get('/stats', getStats);
 
-router.get('stats/live', sseHandler);
+router.get('/stats/live', sseHandler);
 
 module.exports = router;
