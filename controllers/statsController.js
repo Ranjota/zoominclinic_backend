@@ -2,7 +2,7 @@ const Stats = require('../models/statsModel');
 
 const getStats = async (req, res) => {
     try {
-        const stats = await Stats.findOne().lean();
+        const stats = await Stats.findOne().sort({ updatedAt: -1}).lean();
         // const test = stats.toObject();
         res.json(stats);
     } catch (error) {
