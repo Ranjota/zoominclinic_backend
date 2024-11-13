@@ -11,7 +11,7 @@ const sseHandler = (req, res) => {
 
         if(stats) {
             res.write(`
-            data: ${JSON.stringify({type: 'message', data: stats})}
+            data: ${JSON.stringify({type: 'live-stats', data: stats})}
               \n\n  `);
         }
     }, 10000);
