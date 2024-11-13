@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const statsSchema = new mongoose.Schema({
-    totalDoctosOnline: {
+    totalDoctorsOnline: {
         type: Number,
         required: true,
         default: 0
