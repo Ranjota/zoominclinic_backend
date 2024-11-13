@@ -1,10 +1,10 @@
 const Stats = require('../models/statsModel');
 
 const sseHandler = (req, res) => {
-    res.setRequestHeader('Content-type', 'text/event-stream');
-    res.setRequestHeader('Cache-Control', 'no-cache');
-    res.setRequestHeader('Connection', 'keep-alive');
-    res.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    res.setHeader('Content-type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    res.setHeader('X-Requested-With', 'XMLHttpRequest');
 
     const interval = setInterval(async () => {
         const stats = await Stats.getLiveStats();
