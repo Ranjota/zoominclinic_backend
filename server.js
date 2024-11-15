@@ -1,7 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-const statsRouter = require('./routes/statsRoutes');
-const authRouter = require('./routes/authRoutes');
+const statsRoutes = require('./routes/statsRoutes');
+const authRoutes = require('./routes/authRoutes');
+const checkInRoutes = require('./routes/checkInRoutes');
 const connectDB = require('./config/db');
 
 const app = express();
@@ -22,8 +23,9 @@ app.get('/', (req, res) => {
   res.send('Welcome to the ZoomInClinic backend');
 });
 
-app.use('/api/stats', statsRouter); // Routes for stats
-app.use('/api/auth', authRouter); // Routes for stats
+app.use('/api/stats', statsRoutes); // Routes for stats
+app.use('/api/auth', authRoutes); // Routes for login
+app.use('/api/check-in', checkInRoutes); // Routes for check-in
 
 // Start the server
 const PORT = process.env.PORT || 5000;
