@@ -3,6 +3,7 @@ const cors = require('cors');
 const statsRoutes = require('./routes/statsRoutes');
 const authRoutes = require('./routes/authRoutes');
 const checkInRoutes = require('./routes/checkInRoutes');
+const doctorListRoutes = require('./routes/doctorListRoutes');
 const connectDB = require('./config/db');
 
 const app = express();
@@ -26,6 +27,7 @@ app.get('/', (req, res) => {
 app.use('/api/stats', statsRoutes); // Routes for stats
 app.use('/api/auth', authRoutes); // Routes for login
 app.use('/api/check-in', checkInRoutes); // Routes for check-in
+app.use('/api/doctorList', doctorListRoutes); //Routes for doctor list
 
 // Start the server
 const PORT = process.env.PORT || 5000;
