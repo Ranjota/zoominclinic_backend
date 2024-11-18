@@ -1,7 +1,7 @@
 const DoctorsList = require('../models/doctorListModel');
 
 const getDoctors = async (req, res) => {
-    const {query, page = 1, limit = 10} = req.query;
+    const {query, page = 1, limit = 10, specialty, minRating, availability} = req.query;
     const skip = (page - 1) * limit;
 
    try {
@@ -15,6 +15,19 @@ const getDoctors = async (req, res) => {
                 ]
             }
         }
+
+        if(specialty) {
+            filter.specialty = { $regex: specialty, $options: 'i'};
+        }
+        
+        if(minRating) {
+            filter.minRating = { $gte: Number(minRating)}
+        }
+
+        if(availability) {
+            filter.availability = availability === 'true';
+        }
+
 
         const total = await DoctorsList.countDocuments(filter);
         const doctorList = await DoctorsList.find(filter)

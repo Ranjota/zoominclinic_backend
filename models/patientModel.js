@@ -32,7 +32,6 @@ PatientSchema.pre('save', async function(next) {
 PatientSchema.methods.isPasswordMatch = async function (enteredPassword) {
     const salt = await bcrypt.genSalt(10);
     const password = await bcrypt.hash(enteredPassword, salt);
-    console.log(password);
  
     return await bcrypt.compare(enteredPassword, this.passwordHash);
 }
