@@ -25,7 +25,7 @@ const getDoctors = async (req, res) => {
         }
 
         if(doctorAvailability) {
-            filter.availability = doctorAvailability === 'true';
+            filter.available = doctorAvailability === 'true';
         }
 
 
