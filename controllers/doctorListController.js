@@ -1,7 +1,7 @@
 const DoctorsList = require('../models/doctorListModel');
 
 const getDoctors = async (req, res) => {
-    const {query, page = 1, limit = 10, doctorSpecialty, minRating, availability} = req.query;
+    const {query, page = 1, limit = 10, doctorSpecialty, minRating, doctorAvailability} = req.query;
     const skip = (page - 1) * limit;
 
    try {
@@ -25,7 +25,7 @@ const getDoctors = async (req, res) => {
         }
 
         if(availability) {
-            filter.availability = availability === 'true';
+            filter.availability = doctorAvailability === 'true';
         }
 
 
