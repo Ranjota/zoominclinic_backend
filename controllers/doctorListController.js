@@ -24,7 +24,7 @@ const getDoctors = async (req, res) => {
             filter.rating = { $gte: Number(minRating)}
         }
 
-        if(availability) {
+        if(doctorAvailability) {
             filter.availability = doctorAvailability === 'true';
         }
 
