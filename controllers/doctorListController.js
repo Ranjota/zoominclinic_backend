@@ -1,7 +1,7 @@
 const DoctorsList = require('../models/doctorListModel');
 
 const getDoctors = async (req, res) => {
-    const {query, page = 1, limit = 10, specialty, minRating, availability} = req.query;
+    const {query, page = 1, limit = 10, doctorSpecialty, minRating, availability} = req.query;
     const skip = (page - 1) * limit;
 
    try {
@@ -10,18 +10,18 @@ const getDoctors = async (req, res) => {
         if(query) {
             filter = {
                 $or: [
-                    {name: {$regex: query, $options: 'i'}}, //Case insensitive name
-                    {specialty: {$regex: query, $options: 'i'}}, //Case insensitive specialty
+                    {name: {$regex: query , $options: 'i'}}, //Case insensitive name
+                    {specialty: { $regex: query, $options: 'i'}}, //Case insensitive specialty
                 ]
             }
         }
 
-        if(specialty) {
-            filter.specialty = { $regex: specialty, $options: 'i'};
+        if(doctorSpecialty) {
+            filter.specialty = { $regex: doctorSpecialty, $options: 'i'};
         }
         
         if(minRating) {
-            filter.minRating = { $gte: Number(minRating)}
+            filter.rating = { $gte: Number(minRating)}
         }
 
         if(availability) {
