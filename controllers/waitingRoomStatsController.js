@@ -3,6 +3,7 @@ const DoctorList = require('../models/doctorListModel');
 const EventEmitter = require('events');
 const { getAverageWaitTimePerPatient, calculateAverageWaitTime, fetchLiveData} = require('../utils/waitTimeStatsUtils');
 const statsUtils = require('../utils/waitTimeStatsUtils');
+const ActiveSession = require('../models/ActiveSession');
 
 const eventEmitter = new EventEmitter();
 eventEmitter.setMaxListeners(0);
@@ -108,7 +109,7 @@ const getLiveQueueDetails = (req, res) => {
         res.write(`event: update\n`);
         res.write(`data: ${JSON.stringify(update)}\n\n`);
     }
-
+    
     eventEmitter.on('update', sendUpdate);
 
     // // req.on('close', () => {
@@ -116,10 +117,10 @@ const getLiveQueueDetails = (req, res) => {
     // // });
 }
 
-const triggerLiveUpdates = async () => {
-    try {
-         const liveUpdate = await fetchLiveData();
-         eventEmitter.emit('update', liveUpdate);
+const triggerLiveUpdates = async (patientId) => {
+    try { 
+          const liveUpdate = await fetchLiveData(patientId);
+          eventEmitter.emit('update', liveUpdate);
     } catch(error) {
         console.error('Error triggering live updates:', error);
     }

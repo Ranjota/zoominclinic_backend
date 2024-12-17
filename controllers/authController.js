@@ -1,5 +1,7 @@
 const Patient = require('../models/patientModel');
+const ActiveSession = require('../models/ActiveSession');
 const jwt = require('jsonwebtoken');
+const { addActiveSession } = require('../utils/activeSessionsCache');
 require('dotenv').config();
 
 const login = async (req, res) => {
@@ -18,6 +20,8 @@ const login = async (req, res) => {
         }
 
         const token = jwt.sign({ id: patient._id}, process.env.JWT_SECRET, {expiresIn: '1h'});
+
+       await addActiveSession(patient._id.toString());
 
         res.json({
             token,
