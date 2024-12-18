@@ -3,7 +3,7 @@ const router = express.Router();
 const { cancelAppointment, updateWaitingRoomDetails, getLiveQueueDetails } = require('../controllers/waitingRoomStatsController');
 const authMiddleware = require('../middleware/authMiddleware');
 
-// router.get('/', authMiddleware, getWaitingRoomDetails );
+router.get('/', authMiddleware, getWaitingRoomDetails );
 
 router.put('/cancel', authMiddleware, cancelAppointment);
 
