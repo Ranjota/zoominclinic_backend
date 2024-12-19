@@ -1,4 +1,5 @@
 const CheckIn = require('../models/checkInModel');
+const {fetchWaitingRoomData} = require('../utils/waitTimeStatsUtils');
 
 const checkIn = async (req, res) => {
     try {
@@ -6,6 +7,22 @@ const checkIn = async (req, res) => {
 
         if(!reason) {
             return res.status(400).json({message: 'Reason for visit is required'});
+        }
+
+        const existingCheckIn = await CheckIn.findOne({
+            patientId: req.user.id,
+            status: 'Pending'
+        });
+
+        if(existingCheckIn) {
+            const existingCheckInDetails = await fetchWaitingRoomData(existingCheckIn._id);
+
+            return res.status(200).json({
+                activeCheckIn: {
+                    checkInId: existingCheckIn._id,
+                    ...existingCheckInDetails
+                }      
+            });
         }
 
         const checkInRecord = new CheckIn({

@@ -22,12 +22,12 @@ const checkInSchema = mongoose.Schema({
    checkOutTime: {
       type: Date
    },
-   estimatedWaitTime: {
-      type: Number, // Wait time in minutes
-   },
-   positionInQueue: {
-      type: Number, // Patient's position in the waiting queue
-   },
+   // estimatedWaitTime: {
+   //    type: Number, // Wait time in minutes
+   // },
+   // positionInQueue: {
+   //    type: Number, // Patient's position in the waiting queue
+   // },
    status: {
       type: String,
       enum: ['Pending', 'Completed', 'Canceled'],

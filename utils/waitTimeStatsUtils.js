@@ -39,6 +39,25 @@ const getAverageWaitTimePerPatient = async () => {
 const fetchLiveData = async (patientId = null) => {
     try {
         const stats = await calculateStats();
+        const waitingRoom = await fetchWaitingRoomData(patientId);
+
+        return {
+            stats,
+            waitingRoom
+        }
+    } catch(error) {
+        console.error('Error fetching live data:', error);
+        throw error;
+    }
+}
+
+/**
+ * Fetch waiting room data for real-time updates.
+ * 
+ * @returns {Promise<object>} The fetched waiting room data
+ */
+const fetchWaitingRoomData = async (patientId = null) => {
+    try {
         let waitingRoom;
         // const liveQueueDetails = await CheckIn.aggregate([
         //     { $match: {status: 'Pending'}},
@@ -79,12 +98,8 @@ const fetchLiveData = async (patientId = null) => {
                 };
             }
         }
-
-
-        return {
-            stats,
-            waitingRoom
-        }
+        
+        return waitingRoom;
     } catch(error) {
         console.error('Error fetching live data:', error);
         throw error;
@@ -131,6 +146,7 @@ const calculateAverageWaitTime = (checkInTime) => {
 module.exports = {
     getAverageWaitTimePerPatient,
     fetchLiveData,
+    fetchWaitingRoomData,
     calculateStats,
     calculateAverageWaitTime
 };
