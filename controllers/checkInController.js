@@ -21,7 +21,8 @@ const checkIn = async (req, res) => {
                 activeCheckIn: {
                     checkInId: existingCheckIn._id,
                     ...existingCheckInDetails
-                }      
+                }   ,
+                message: 'You already have a pending check-in.'   
             });
         }
 
