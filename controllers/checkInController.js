@@ -19,11 +19,10 @@ const checkIn = async (req, res) => {
                 existingCheckIn.status = 'Canceled';
                 await existingCheckIn.save();
             } else {
-                const existingCheckInDetails = await fetchWaitingRoomData(existingCheckIn._id);
+                const existingCheckInDetails = await fetchWaitingRoomData(existingCheckIn.patientId);
 
                 return res.status(200).json({
-                    activeCheckIn: {
-                        checkInId: existingCheckIn._id,
+                    activeCheckIn:{
                         ...existingCheckInDetails
                     }   ,
                     message: 'You already have a pending check-in. Cancel it to create a new one.'   
