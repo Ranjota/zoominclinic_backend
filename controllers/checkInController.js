@@ -3,7 +3,7 @@ const {fetchWaitingRoomData} = require('../utils/waitTimeStatsUtils');
 
 const checkIn = async (req, res) => {
     try {
-        const {reason} = req.body;
+        const {reason, cancelExisting} = req.body;
 
         if(!reason) {
             return res.status(400).json({message: 'Reason for visit is required'});
@@ -15,15 +15,20 @@ const checkIn = async (req, res) => {
         });
 
         if(existingCheckIn) {
-            const existingCheckInDetails = await fetchWaitingRoomData(existingCheckIn._id);
+            if(cancelExisting) {
+                existingCheckIn.status = 'Canceled';
+                await existingCheckIn.save();
+            } else {
+                const existingCheckInDetails = await fetchWaitingRoomData(existingCheckIn._id);
 
-            return res.status(200).json({
-                activeCheckIn: {
-                    checkInId: existingCheckIn._id,
-                    ...existingCheckInDetails
-                }   ,
-                message: 'You already have a pending check-in.'   
-            });
+                return res.status(200).json({
+                    activeCheckIn: {
+                        checkInId: existingCheckIn._id,
+                        ...existingCheckInDetails
+                    }   ,
+                    message: 'You already have a pending check-in. Cancel it to create a new one.'   
+                });
+            }        
         }
 
         const checkInRecord = new CheckIn({
