@@ -27,7 +27,7 @@ const checkIn = async (req, res) => {
                 });
 
                 return res.status(200).json({
-                    activeCheckIn: {data: existingCheckInRecord},
+                    activeCheckIn: {activeCheckIn: existingCheckInRecord},
                     message: 'You already have a pending check-in. Cancel it to create a new one.'   
                 });
             }        
