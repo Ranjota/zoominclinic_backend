@@ -90,7 +90,7 @@ const fetchWaitingRoomData = async (patientId = null) => {
                 const estimatedWaitTime = positionInQueue * averageWaitTimePerPatient;
 
                 waitingRoom = {
-                    waitTimeSoFar: calculateAverageWaitTime(checkIn.checkInTime),
+                    averageWaitTimePerPatient: calculateAverageWaitTime(checkIn.checkInTime),
                     estimatedWaitTime: `${estimatedWaitTime} minutes`,
                     positionInQueue: positionInQueue + 1,
                     totalDoctorsOnline: await DoctorList.countDocuments({ available: true }),
