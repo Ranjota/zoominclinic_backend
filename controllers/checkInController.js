@@ -38,12 +38,12 @@ const checkIn = async (req, res) => {
             reason
         });
 
-        await checkInRecord.save();
+        const savedCheckIn = await checkInRecord.save();
 
         res.json({
             success: true,
             message: 'Check-in successful',
-            data: checkInRecord
+            data: savedCheckIn
         });
 
     } catch(error) {
