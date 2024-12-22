@@ -96,7 +96,7 @@ const updateWaitingRoomDetails = async (req, res) => {
     }
 }
 
-const getLiveQueueDetails = async (req, res) => {
+const getLiveQueueDetails = (req, res) => {
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
@@ -111,20 +111,6 @@ const getLiveQueueDetails = async (req, res) => {
     }
     
     eventEmitter.on('update', sendUpdate);
-
-    // If you want to send more specific wait time data, you can trigger that separately here:
-    const averageWaitTimePerPatient = await getAverageWaitTimePerPatient();
-    const totalPatientsInQueue = await CheckIn.countDocuments({ status: 'Pending' });
-
-    const estimatedWaitTime = totalPatientsInQueue * averageWaitTimePerPatient;
-    const waitTimeUpdate = {
-        waitTimeSoFar: calculateAverageWaitTime(),
-        estimatedWaitTime: `${estimatedWaitTime} minutes`,
-        totalPatientsInQueue
-    };
-
-    // Emit the updated wait time to clients
-    eventEmitter.emit('update', waitTimeUpdate);
 
     // // req.on('close', () => {
     // //     eventEmitter.removeListener('update', sendUpdate);
