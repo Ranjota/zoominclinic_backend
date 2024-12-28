@@ -34,6 +34,7 @@ const getWaitingRoomDetails = async (req, res) => {
             waitTimeSoFar: calculateAverageWaitTime(checkIn.checkInTime),
             estimatedWaitTime: `${estimatedWaitTime} minutes`,
             positionInQueue: positionInQueue + 1,
+            checkInTime: checkIn.checkInTime,
             totalDoctorsOnline,
             reasonForVisit: checkIn.reason
         });
