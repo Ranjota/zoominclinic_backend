@@ -136,11 +136,13 @@ const calculateStats = async () => {
 
 const calculateAverageWaitTime = (checkInTime) => {
     const now = new Date();
-    const diffMs = now - checkInTime;
-    const minutes = Math.floor(diffMs / 60000);
-    const seconds = Math.floor((diffMs % 60000) / 1000);
+    const diffMs = now - checkInTime; // Difference in milliseconds
 
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+    const hours = Math.floor(diffMs / 3600000); // Convert milliseconds to hours
+    const minutes = Math.floor((diffMs % 3600000) / 60000); // Remaining minutes
+    const seconds = Math.floor((diffMs % 60000) / 1000); // Remaining seconds
+
+    return `${hours}h ${minutes}m ${seconds}s`;
 }
 
 module.exports = {
