@@ -18,7 +18,7 @@ const getWaitingRoomDetails = async (req, res) => {
          return res.status(404).json({message: 'No active check-in found for the patient'});
        }
 
-     const totalPatientsOnline = await CheckIn.countDocuments({
+     const totalPatientsPending = await CheckIn.countDocuments({
         status: 'Pending'
       });
 
@@ -39,7 +39,7 @@ const getWaitingRoomDetails = async (req, res) => {
             estimatedWaitTime: `${estimatedWaitTime} minutes`,
             positionInQueue: positionInQueue + 1,
             checkInTime: checkIn.checkInTime,
-            totalPatientsOnline,
+            totalPatientsPending,
             totalDoctorsOnline,
             reasonForVisit: checkIn.reason
         });
