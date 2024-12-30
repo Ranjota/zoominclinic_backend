@@ -79,11 +79,13 @@ const fetchWaitingRoomData = async (patientId = null) => {
         // Fetch patient-specific details if patientId is provided
         if (patientId) {
             const checkIn = await CheckIn.findOne({ patientId, status: 'Pending' });
+            const totalPatientsPending = await CheckIn.countDocuments({ status: 'Pending' });
+
 
             if (checkIn) {
                 const positionInQueue = await CheckIn.countDocuments({
                     status: 'Pending',
-                    checkInTime: { $lt: checkIn.checkInTime },
+                    checkInTime: { $lt: new Date(checkIn.checkInTime) },
                 });
 
                 const averageWaitTimePerPatient = await getAverageWaitTimePerPatient();
@@ -91,6 +93,7 @@ const fetchWaitingRoomData = async (patientId = null) => {
 
                 waitingRoom = {
                     averageWaitTimePerPatient: averageWaitTimePerPatient,
+                    totalPatientsPending,
                     estimatedWaitTime: `${estimatedWaitTime} minutes`,
                     positionInQueue: positionInQueue + 1,
                     totalDoctorsOnline: await DoctorList.countDocuments({ available: true }),
@@ -115,13 +118,11 @@ const fetchWaitingRoomData = async (patientId = null) => {
 const calculateStats = async () => {
     try {
         const totalDoctorsOnline = await DoctorList.countDocuments({ available: true });
-        const totalPatients = await CheckIn.countDocuments({ status: 'Pending' });
 
         const averageWaitTimePerPatient = await getAverageWaitTimePerPatient();
 
         const stats = {
             totalDoctorsOnline,
-            totalPatients,
             averageWaitTime: `${averageWaitTimePerPatient} minutes`,
             updatedAt: new Date()
         }
