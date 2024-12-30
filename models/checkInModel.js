@@ -32,6 +32,11 @@ const checkInSchema = mongoose.Schema({
       type: String,
       enum: ['Pending', 'Completed', 'Canceled'],
       default: 'Pending'
+   },
+   cancellationReason: {
+      type: String,
+      required: function() { return this.status === 'Canceled'; }, // Only required if status is 'Canceled'
+      trim: true
    }
 }, {
    timestamps: true

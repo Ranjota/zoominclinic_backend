@@ -17,6 +17,7 @@ const checkIn = async (req, res) => {
         if(existingCheckIn) {
             if(cancelExisting) {
                 existingCheckIn.status = 'Canceled';
+                existingCheckIn.cancellationReason = reason;
                 await existingCheckIn.save();
             } else {
                 // const existingCheckInDetails = await fetchWaitingRoomData(existingCheckIn.patientId);
