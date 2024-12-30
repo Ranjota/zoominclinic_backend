@@ -28,6 +28,8 @@ const watchCheckIns = () => {
             // Since your callback calls an async function (triggerLiveUpdates), the callback returns a Promise.
             // Thus, map produces an array of Promises.
             //The purpose of a callback is to defer execution of a function until a certain event or condition is met, whether synchronously or asynchronously.
+
+            //Chat gpt Zoom In Clinic App 4
             const promises = activePatientIds.map(patientId => triggerLiveUpdates(patientId));
             await Promise.all(promises);
         }

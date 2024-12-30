@@ -45,7 +45,7 @@ const fetchLiveData = async (patientId = null) => {
             stats,
             waitingRoom
         }
-    } catch(error) {
+    } catch (error) {
         console.error('Error fetching live data:', error);
         throw error;
     }
@@ -101,9 +101,9 @@ const fetchWaitingRoomData = async (patientId = null) => {
                 };
             }
         }
-        
+
         return waitingRoom;
-    } catch(error) {
+    } catch (error) {
         console.error('Error fetching live data:', error);
         throw error;
     }
@@ -118,11 +118,12 @@ const fetchWaitingRoomData = async (patientId = null) => {
 const calculateStats = async () => {
     try {
         const totalDoctorsOnline = await DoctorList.countDocuments({ available: true });
-
+        const totalPatients = await CheckIn.countDocuments({ status: 'Pending' });
         const averageWaitTimePerPatient = await getAverageWaitTimePerPatient();
 
         const stats = {
             totalDoctorsOnline,
+            totalPatients,
             averageWaitTime: `${averageWaitTimePerPatient} minutes`,
             updatedAt: new Date()
         }
@@ -131,7 +132,7 @@ const calculateStats = async () => {
     }
     catch (error) {
         console.error('Error calculating stats:', error);
-        throw error;    
+        throw error;
     }
 }
 
