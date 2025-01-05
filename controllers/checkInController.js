@@ -4,7 +4,6 @@ const {fetchWaitingRoomData} = require('../utils/waitTimeStatsUtils');
 const checkIn = async (req, res) => {
     try {
         const {reason, cancelExisting} = req.body;
-        console.log(reason);
 
         if(!reason) {
             return res.status(400).json({message: 'Reason for visit is required'});
@@ -19,14 +18,6 @@ const checkIn = async (req, res) => {
             if(cancelExisting) {
                 existingCheckIn.status = 'Canceled';
                 existingCheckIn.cancellationReason = reason;
-                await existingCheckIn.save();
-
-                return res.json({
-                    success: true,
-                    message: 'Check-in cancelled',
-                    data: existingCheckIn
-                });
-
             } else {
                 // const existingCheckInDetails = await fetchWaitingRoomData(existingCheckIn.patientId);
 
@@ -47,7 +38,7 @@ const checkIn = async (req, res) => {
             reason
         });
 
-        const savedCheckIn = await checkInRecord.save();
+        const savedCheckIn = (existingCheckIn && cancelExisting) ? await existingCheckIn.save() :await checkInRecord.save();
 
         res.json({
             success: true,
