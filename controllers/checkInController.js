@@ -4,6 +4,7 @@ const {fetchWaitingRoomData} = require('../utils/waitTimeStatsUtils');
 const checkIn = async (req, res) => {
     try {
         const {reason, cancelExisting} = req.body;
+        console.log(reason);
 
         if(!reason) {
             return res.status(400).json({message: 'Reason for visit is required'});

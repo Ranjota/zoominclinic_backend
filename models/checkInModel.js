@@ -35,7 +35,7 @@ const checkInSchema = mongoose.Schema({
    },
    cancellationReason: {
       type: String,
-      required: function() { return this.status === 'Canceled'; }, // Only required if status is 'Canceled'
+      // required: function() { return this.status === 'Canceled'; }, // Only required if status is 'Canceled'
       trim: true
    }
 }, {
