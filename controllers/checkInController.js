@@ -38,7 +38,7 @@ const checkIn = async (req, res) => {
             reason
         });
 
-        const savedCheckIn = (existingCheckIn && cancelExisting) ? await existingCheckIn.save() :await checkInRecord.save();
+        const savedCheckIn = (existingCheckIn && cancelExisting) ? {activeCheckIn: await existingCheckIn.save()} :await checkInRecord.save();
 
         res.json({
             success: true,

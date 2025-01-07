@@ -9,6 +9,7 @@ const redis = new Redis({
     port: 6379,                    // Default Redis port
     password: process.env.UPSTASH_REDIS_REST_TOKEN, // Authentication token
     tls: { rejectUnauthorized: false }, // Required for Upstash Redis with TLS
+    connectTimeout: 1000000
 });
 
 (async () => {
