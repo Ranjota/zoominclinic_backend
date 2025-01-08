@@ -22,14 +22,14 @@ const checkIn = async (req, res) => {
                 existingCheckIn.status = 'Canceled';
                 existingCheckIn.cancellationReason = reason;
                 await existingCheckIn.save();  // Ensure we save the canceled record
-                // return res.status(200).json({
-                //     success: true,
-                //     message: 'Existing check-in canceled successfully.',
-                //     data: existingCheckIn,
-                // });
+                return res.status(200).json({
+                    success: true,
+                    message: 'Existing check-in canceled successfully.',
+                    data: existingCheckIn,
+                });
             } else {
                 // Return a message if the user already has a pending check-in
-                return res.status(400).json({
+                return res.status(200).json({
                     message: 'You already have a pending check-in. Cancel it to create a new one.',
                     activeCheckIn: existingCheckIn,
                 });
