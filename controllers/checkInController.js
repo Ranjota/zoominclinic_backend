@@ -3,10 +3,10 @@ const { fetchWaitingRoomData } = require('../utils/waitTimeStatsUtils');
 
 const checkIn = async (req, res) => {
     try {
-        const { reason, cancelExisting } = req.body;
+        const { reason, cancelExisting, cancellationReason } = req.body;
 
         // Validate that reason is provided
-        if (!reason) {
+        if (!reason && !cancelExisting) {
             return res.status(400).json({ message: 'Reason for visit is required' });
         }
 
@@ -16,35 +16,44 @@ const checkIn = async (req, res) => {
             status: 'Pending',
         });
 
-        if (existingCheckIn) {
+        if (existingCheckIn || cancelExisting) {
             if (cancelExisting) {
                 // Cancel the existing check-in if the user wants to
                 existingCheckIn.status = 'Canceled';
-                existingCheckIn.cancellationReason = reason;
+                existingCheckIn.cancellationReason = (cancellationReason || 'Create a new request');
                 await existingCheckIn.save();  // Ensure we save the canceled record
+
+                if(cancellationReason) {
+                    return res.status(200).json({
+                        success: true,
+                        message: 'Request has been canceled'
+                    });
+                }
             } else {
                 // Return a message if the user already has a pending check-in
                 return res.status(200).json({
-                    message: 'You already have a pending check-in. Cancel it to create a new one.',
+                    message: 'Continue with existing check in.',
                     activeCheckIn: existingCheckIn,
                 });
             }
         }
 
-        // If no existing check-in, create a new check-in record
-        const newCheckIn = new CheckIn({
-            patientId: req.user.id,
-            reason,
-            status: 'Pending', // Ensure the status is set to 'Pending'
-        });
+       
+            // If no existing check-in, create a new check-in record
+            const newCheckIn = new CheckIn({
+                patientId: req.user.id,
+                reason,
+                status: 'Pending', // Ensure the status is set to 'Pending'
+            });
 
-        const savedCheckIn = await newCheckIn.save();
+            const savedCheckIn = await newCheckIn.save();
 
-        return res.status(201).json({
-            success: true,
-            message: 'Check-in successful.',
-            data: savedCheckIn,
-        });
+            return res.status(201).json({
+                success: true,
+                message: 'Check-in successful.',
+                data: savedCheckIn,
+            });
+        
 
     } catch (error) {
         console.error('Error during check-in:', error);
