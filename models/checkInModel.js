@@ -42,4 +42,4 @@ const checkInSchema = mongoose.Schema({
    timestamps: true
 });
 
-module.exports = mongoose.model('CheckIn', checkInSchema, 'checkIn');
+module.exports = mongoose.model('CheckIn', checkInSchema, 'checkIns');
