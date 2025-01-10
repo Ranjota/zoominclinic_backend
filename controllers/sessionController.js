@@ -12,7 +12,7 @@ const assignDoctorToPatient = async (req, res) => {
 
         const doctor = await Doctor.findOne({available: true});
 
-        if(!doctor) return res.status(404).json({message: 'No available doctors'});
+        if(!doctor) return res.status(409).json({message: 'No available doctors'});
 
         checkInRecord.doctorId = doctor._id;
         checkInRecord.status = 'Doctor Assigned'; 
