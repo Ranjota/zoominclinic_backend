@@ -15,7 +15,7 @@ const connectDB = async () => {
 
             // Start watchers after successful connection
             watchCheckIns();
-            watchDoctorList();
+            // watchDoctorList();
         })
         .catch(err => console.error('Error connecting to MongoDB:', err));
 }

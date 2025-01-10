@@ -13,7 +13,7 @@ const watchDoctorList = () => {
             // &&
             // change.updateDescription.updateFileds.available === true
         ) {
-            triggerLiveUpdates();
+            // triggerLiveUpdates();
         }
     });
 
