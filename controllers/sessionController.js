@@ -3,7 +3,7 @@ const Doctor = require('../models/doctorListModel');
 const CheckIn = require('../models/checkInModel');
 
 const assignDoctorToPatient = async (req, res) => {
-    const { patientId } = req.body;
+    const  patientId = req.user.id;
 
     try {
         // Step 2: Find the pending check-in record for the patient
