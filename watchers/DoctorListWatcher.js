@@ -9,8 +9,9 @@ const watchDoctorList = () => {
 
         if(
             change.operationType === 'update' &&
-            change.updateDescription &&
-            change.updateDescription.updateFileds.available === true
+            change.updateDescription 
+            // &&
+            // change.updateDescription.updateFileds.available === true
         ) {
             triggerLiveUpdates();
         }
