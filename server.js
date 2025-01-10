@@ -5,6 +5,7 @@ const authRoutes = require('./routes/authRoutes');
 const checkInRoutes = require('./routes/checkInRoutes');
 const doctorListRoutes = require('./routes/doctorListRoutes');
 const waitingRoomStatsRoutes = require('./routes/waitingRoomStatsRoutes');
+const sessionRoutes = require('./routes/sessionRoutes');
 const logoutRoutes = require('./routes/logoutRoutes')
 const connectDB = require('./config/db');
 
@@ -31,6 +32,7 @@ app.use('/api/auth', authRoutes); // Routes for login
 app.use('/api/check-in', checkInRoutes); // Routes for check-in
 app.use('/api/doctorList', doctorListRoutes); //Routes for doctor list
 app.use('/api/waiting-room', waitingRoomStatsRoutes); //Routes for waiting room
+app.use('/api/sessions', sessionRoutes);
 app.post('/api/logout', logoutRoutes);
 
 // Start the server
