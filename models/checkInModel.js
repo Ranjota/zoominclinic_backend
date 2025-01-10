@@ -30,7 +30,7 @@ const checkInSchema = mongoose.Schema({
    // },
    status: {
       type: String,
-      enum: ['Pending', 'Completed', 'Canceled'],
+      enum: ['Pending', 'Doctor Assigned', 'With Doctor', 'Completed', 'Canceled'],
       default: 'Pending'
    },
    cancellationReason: {

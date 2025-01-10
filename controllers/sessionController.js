@@ -1,5 +1,6 @@
 const Session = require('../models/sessionModel');
 const Doctor = require('../models/doctorListModel');
+const CheckIn = require('../models/checkInModel');
 
 const assignDoctorToPatient = async (req, res) => {
     const { patientId } = req.body;
@@ -14,7 +15,7 @@ const assignDoctorToPatient = async (req, res) => {
         if(!doctor) return res.status(404).json({message: 'No available doctors'});
 
         checkInRecord.doctorId = doctor._id;
-        checkInRecord.status = 'Assigned'; 
+        checkInRecord.status = 'Doctor Assigned'; 
         await checkInRecord.save();
 
         doctor.available = false; 
