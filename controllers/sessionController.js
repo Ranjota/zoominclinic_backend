@@ -1,6 +1,8 @@
 const Session = require('../models/sessionModel');
 const Doctor = require('../models/doctorListModel');
 const CheckIn = require('../models/checkInModel');
+const Twilio = require('twilio-video');
+const config = require('../config/config');
 
 const assignDoctorToPatient = async (req, res) => {
     const  patientId = req.user.id;
@@ -74,4 +76,26 @@ const acceptSession = async (req, res) => {
     }
 };
 
-module.exports = {assignDoctorToPatient, acceptSession};
+const generateVideoToken = (req, res) => {
+    const {identity} = req.body;
+    
+    // const {TWILIO_ACCOUNT_SID, TWILIO_API_KEY_SID, TWILIO_API_KEY_SECRET} = config;
+
+    const grant = new Twilio.jwt.AccessToken.VideoGrant({
+        room: 'room-name'
+    });
+
+    const token = new Twilio.jwt.AccessToken(
+        process.env.TWILIO_ACCOUNT_SID,
+        process.env.TWILIO_API_KEY_SID,
+        process.env.TWILIO_API_KEY_SECRET
+    );
+
+    token.addGrant(grant);
+    token.identity = identity;
+
+    res.json({ token: token.toJwt()});
+
+}
+
+module.exports = {assignDoctorToPatient, acceptSession, generateVideoToken};
