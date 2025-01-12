@@ -41,4 +41,37 @@ const assignDoctorToPatient = async (req, res) => {
     }
 }
 
-module.exports = {assignDoctorToPatient};
+const acceptSession = async (req, res) => {
+    const { patientId } = req.body; // Get the patientId from the frontend request
+
+    try {
+        // Find the active session for the patient
+        const session = await Session.findOne({ patientId, status: 'waiting' });
+
+        if (!session) {
+            return res.status(404).json({ message: 'Session not found or already started' });
+        }
+
+        // Update the session status to 'Started' or 'In Progress'
+        session.status = 'In Progress';
+        await session.save();
+
+        // Optionally, update the patient's check-in status to 'Being Seen'
+        const checkInRecord = await CheckIn.findOne({ patientId, status: 'Doctor Assigned' });
+        if (checkInRecord) {
+            checkInRecord.status = 'With Doctor'; // Update to indicate patient is now being seen
+            await checkInRecord.save();
+        }
+
+        // Send response back with updated session information
+        res.status(200).json({
+            message: 'Session started successfully',
+            session,
+        });
+    } catch (error) {
+        console.error('Error accepting session:', error);
+        res.status(500).json({ message: 'Error accepting session' });
+    }
+};
+
+module.exports = {assignDoctorToPatient, acceptSession};

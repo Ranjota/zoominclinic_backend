@@ -17,7 +17,7 @@ const sessionSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['waiting', 'accepted', 'ended'],
+        enum: ['waiting', 'In Progress', 'ended'],
         default: 'waiting'
     }
 });
