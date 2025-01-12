@@ -44,7 +44,7 @@ const assignDoctorToPatient = async (req, res) => {
 }
 
 const acceptSession = async (req, res) => {
-    const { patientId } = req.body; // Get the patientId from the frontend request
+    const patientId = req.user.id; // Get the patientId from the frontend request
 
     try {
         // Find the active session for the patient
@@ -77,7 +77,7 @@ const acceptSession = async (req, res) => {
 };
 
 const generateVideoToken = (req, res) => {
-    const {identity} = req.body;
+    const patientId = req.user.id;
     
     // const {TWILIO_ACCOUNT_SID, TWILIO_API_KEY_SID, TWILIO_API_KEY_SECRET} = config;
 
@@ -92,7 +92,7 @@ const generateVideoToken = (req, res) => {
     );
 
     token.addGrant(grant);
-    token.identity = identity;
+    token.identity = patientId;
 
     res.json({ token: token.toJwt()});
 
